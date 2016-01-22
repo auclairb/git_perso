@@ -1,0 +1,61 @@
+#include "ray.h"
+
+
+bool intersectionRayTriangle(Vec3f o, Vec3f w,Vec3f p0,Vec3f p1,Vec3f p2,float intersection[4]){
+Vec3f e0 = p1 - p0;
+Vec3f e1 = p2 - p0;
+Vec3f n = cross(e0,e1);
+n.normalize();
+Vec3f q = cross(w,e1);
+float a = dot(e0,q);
+if ( dot(n,w)>= 0 or abs(a)<0.01 ){
+return false;
+}
+Vec3f s = (o - p0)/a;
+Vec3f r = cross(s,e0);
+float b0 = dot(s,q);
+float b1 = dot(r,w);
+float b2 = 1 - b0 - b1;
+if (b0 <0.0f or b1<0.0f or b2<0.0f){
+return false;
+}
+float t = dot(e1,r);
+if (t>=0){
+intersection[0]= b0;
+intersection[1]= b1;
+intersection[2]= b2;
+intersection[3]= t;
+return true;
+}
+return 	false;
+}
+
+void intersectAll(){
+affichage = new int[mesh.T.size ()];
+for (unsigned int i = 0; i < mesh.T.size (); i++) {
+for (unsigned int j = 0; j < 3; j++) {
+const Vertex & v = mesh.V[mesh.T[i].v[j]];
+unsigned int i0 = 0;
+bool test = true;
+float intersection[4] = {0,0,0,0};
+while (test == true and i0 < mesh.T.size ()){
+
+Vertex & sommet1 = mesh.V[mesh.T[i0].v[1]];
+Vertex & sommet2 = mesh.V[mesh.T[i0].v[2]];
+Vertex & sommet3 = mesh.V[mesh.T[i0].v[3]];
+Vec3f source(-10.0f,10.0f,-10.0f);
+Vec3f w(10.0f-v.p[0], 0.0f-v.p[1], 0.0f-v.p[2]);
+test = intersectionRayTriangle(source,w,sommet1.p,sommet2.p,sommet3.p,intersection);
+i0++;
+}
+
+if (!test){
+affichage[i]=1;
+} else {
+affichage[i]=0;
+}
+}
+std::cout<<"numero case:"<<i<<" "<<"valeur tableau:"<<affichage[i]<<endl;
+}
+}
+
