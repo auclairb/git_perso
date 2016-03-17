@@ -23,6 +23,7 @@ pthread_t process_wait() {
   
   if (first_thread <= last_thread) {
     thread = threads_table[first_thread];
+    pthread_join(threads_table[first_thread],NULL);
     first_thread++;
   }
 
@@ -56,15 +57,17 @@ int main(int argc, char *argv[]){
   // Creer autant de threads que demandé en ligne de commande
   int n;
   for (n = 0; n <= last_thread; n++) {
+    pthread_create(&threads_table[n],NULL,thread_main,NULL);
   }
 
   // Attendre la terminaison des threads dans un certain ordre
   pthread_t thread;
   while ((thread = process_wait()) != NULL) {
-    
     gettimeofday(&t, NULL);
-    printf("thread (%p) join after %d s\n", (void *)thread, (int)(t.tv_sec -s.tv_sec));
+    printf("thread (%p) join after %d s\n", (void *)thread, (int)(t.tv_sec -s.tv_sec));   
   }
+ 
+  
   return 0;
 
 }
