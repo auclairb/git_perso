@@ -17,7 +17,7 @@ void main_consumer(void){
   printf ("consume %d elements\n", (int) MAX/4);
   printf ("consumer should hang for 5s\n");
   for (i = 0; i < MAX/4; i++){
-    d = protected_buffer_get (protected_buffer);
+    d = protected_buffer_get(protected_buffer);
     printf ("consume [%d]\n", *d);
   }
   printf ("consumer waiting for 5s\n");
@@ -25,7 +25,7 @@ void main_consumer(void){
   sleep (5);
   printf ("consume %d elements\n", (int) (MAX - MAX/4));
   for (; i < MAX; i++){
-    d = protected_buffer_get (protected_buffer);
+    d = protected_buffer_get(protected_buffer);
     printf ("consume [%d]\n", *d);
   }
 }

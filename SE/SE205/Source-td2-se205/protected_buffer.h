@@ -6,6 +6,7 @@
 
 typedef struct {
   circular_buffer_t * buffer;
+  pthread_mutex_t * mutex;
 } protected_buffer_t;
 
 // Initialise la structure du tampon circulaire
