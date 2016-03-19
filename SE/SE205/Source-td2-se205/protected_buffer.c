@@ -15,13 +15,16 @@ void * protected_buffer_get(protected_buffer_t * b){
   pthread_mutex_lock(b->mutex);
   void * d;
   d = circular_buffer_get(b->buffer);
+  while ( d==NULL){
+    d = circular_buffer_get(b->buffer);
+  };
   pthread_mutex_unlock(b->mutex);
   return d;
 }
 
 int protected_buffer_put(protected_buffer_t * b, void * d){
   pthread_mutex_lock(b->mutex);
-  circular_buffer_put(b->buffer, d);
+  while (circular_buffer_put(b->buffer, d) == 0);
   pthread_mutex_unlock(b->mutex);
   return 1;
 }
