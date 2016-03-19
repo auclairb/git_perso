@@ -16,6 +16,8 @@ void * protected_buffer_get(protected_buffer_t * b){
   void * d;
   d = circular_buffer_get(b->buffer);
   while ( d==NULL){
+    pthread_mutex_unlock(b->mutex);
+    pthread_mutex_lock(b->mutex);
     d = circular_buffer_get(b->buffer);
   };
   pthread_mutex_unlock(b->mutex);
@@ -24,7 +26,10 @@ void * protected_buffer_get(protected_buffer_t * b){
 
 int protected_buffer_put(protected_buffer_t * b, void * d){
   pthread_mutex_lock(b->mutex);
-  while (circular_buffer_put(b->buffer, d) == 0);
+  while (circular_buffer_put(b->buffer, d) == 0){
+  pthread_mutex_unlock(b->mutex);
+  pthread_mutex_lock(b->mutex);
+  };
   pthread_mutex_unlock(b->mutex);
   return 1;
 }

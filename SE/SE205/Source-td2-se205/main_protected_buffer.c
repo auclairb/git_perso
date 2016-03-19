@@ -38,7 +38,8 @@ int main(int argc, char *argv[]){
   protected_buffer = protected_buffer_init(MAX);
 
   // Creer un thread consumer qui exécute main_consumer
-
+  pthread_t thread_consumer;
+  pthread_create(&thread_consumer,NULL,&main_consumer,NULL);
   printf ("producer waiting for 5s\n");
   sleep (5);
   printf ("produce %d elements\n", 2 * MAX);
@@ -51,7 +52,7 @@ int main(int argc, char *argv[]){
   }
   
   // Attendre la terminaison de consumer
-
+  pthread_join(&thread_consumer,NULL);
   return 0;
 }
 
