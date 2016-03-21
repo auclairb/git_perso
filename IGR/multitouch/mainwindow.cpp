@@ -5,6 +5,7 @@
 #include <QScrollArea>
 #include <QPushButton>
 #include <QTextEdit>
+#include "strokedrawer.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
