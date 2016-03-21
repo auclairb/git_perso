@@ -4,6 +4,7 @@
 #include <QBoxLayout>
 #include <QScrollArea>
 #include <QPushButton>
+#include <QTextEdit>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //We add a vertical layout to the central widget
     QVBoxLayout * vLayout = new QVBoxLayout;
+    QHBoxLayout * hLayout = new QHBoxLayout;
 
 
     //ScrollArea creation
@@ -54,7 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     scrollArea->setWidget(scrollingWidget);
     scrollArea->setWidgetResizable(true);
 
+    QTextEdit * text = new QTextEdit("Salut beau gosse !");
+    hLayout->addWidget(text);
     vLayout->addWidget(scrollArea);
+    vLayout->addLayout(hLayout);
 
     window->setLayout(vLayout);
     window->show();
