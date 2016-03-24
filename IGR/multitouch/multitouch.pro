@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    strokedrawer.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    strokedrawer.h
 
 FORMS    += mainwindow.ui
