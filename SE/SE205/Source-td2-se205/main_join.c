@@ -10,6 +10,7 @@
 int last_thread = -1;
 int first_thread = 0;
 pthread_t threads_table[MAXTHREADS];
+protected_buffer_t * protected_buffer;
 
 
 // Terminate thread
@@ -37,12 +38,14 @@ void thread_main(void){
 
   printf("thread (%p) sleeping for %d s\n", (void *)self, duration);
   sleep(duration);
+  protected_buffer_put(protected_buffer, (void*) pthread_self());
   process_exit();
 }
 
 int main(int argc, char *argv[]){
   struct timeval t;
   struct timeval s = {0, 0};
+  protected_buffer = protected_buffer_init(MAXTHREADS);
   
   if (argc != 2){ 
     printf("Usage : %s <n_threads>\n", argv[0]);
@@ -57,15 +60,20 @@ int main(int argc, char *argv[]){
   // Creer autant de threads que demandé en ligne de commande
   int n;
   for (n = 0; n <= last_thread; n++) {
+    //usleep(1000);
     pthread_create(&threads_table[n],NULL,thread_main,NULL);
   }
 
   // Attendre la terminaison des threads dans un certain ordre
+  /*
   pthread_t thread;
   while ((thread = process_wait()) != NULL) {
     gettimeofday(&t, NULL);
-    printf("thread (%p) join after %d s\n", (void *)thread, (int)(t.tv_sec -s.tv_sec));   
-  }
+    printf("thread (%p) join after %d s\n", protected_buffer_get(protected_buffer), (int)(t.tv_sec -s.tv_sec));   
+    }*/
+
+  sleep(30);
+  while ((protected_buffer_size(protected_buffer) != ))
  
   
   return 0;
