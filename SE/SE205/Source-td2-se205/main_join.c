@@ -60,21 +60,31 @@ int main(int argc, char *argv[]){
   // Creer autant de threads que demandé en ligne de commande
   int n;
   for (n = 0; n <= last_thread; n++) {
-    //usleep(1000);
+    usleep(1000);
     pthread_create(&threads_table[n],NULL,thread_main,NULL);
   }
 
   // Attendre la terminaison des threads dans un certain ordre
+  //Partie de la question, à commenter pour la question 3
   /*
   pthread_t thread;
   while ((thread = process_wait()) != NULL) {
     gettimeofday(&t, NULL);
-    printf("thread (%p) join after %d s\n", protected_buffer_get(protected_buffer), (int)(t.tv_sec -s.tv_sec));   
+    printf("thread (%p) join after %d s\n", thread, (int)(t.tv_sec -s.tv_sec));   
     }*/
 
-  sleep(30);
-  while ((protected_buffer_size(protected_buffer) != ))
- 
+  //Partie de la question 3 à décommenter au moment de la question 3
+  
+    void * thread;
+    while(first_thread<=last_thread){
+    thread = protected_buffer_get(protected_buffer);
+    if(thread !=NULL){
+    gettimeofday(&t, NULL);
+    printf("thread (%p) join after %d s\n", thread, (int)(t.tv_sec -s.tv_sec));
+    first_thread++;
+    }
+    }
+  
   
   return 0;
 
