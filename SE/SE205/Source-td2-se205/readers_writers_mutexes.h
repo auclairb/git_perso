@@ -5,10 +5,16 @@
 
 typedef struct {
   int n_readers;
-} rw_mutex_t;
+} r_mutex_t;
 
 typedef struct {
-  rw_mutex_t *rw_mutex; 
+  int writer;
+} w_mutex_t;
+
+
+typedef struct {
+  w_mutex_t * w_mutex;
+  r_mutex_t * r_mutex;
   long offset;
   long exec_time;
   long rest_time;
@@ -18,8 +24,8 @@ typedef struct {
 
 extern long shared_variable;
 
-void rw_mutex_init(rw_mutex_t * rw_mutex);
-void rw_mutex_read_lock (rw_mutex_t * rw_mutex, thread_conf_t * conf);
-void rw_mutex_read_unlock (rw_mutex_t * rw_mutex, thread_conf_t * conf);
-void rw_mutex_writer_lock (rw_mutex_t * rw_mutex, thread_conf_t * conf);
-void rw_mutex_writer_unlock (rw_mutex_t * rw_mutex, thread_conf_t * conf);
+void rw_mutex_init(r_mutex_t * r_mutex, w_mutex_t * w_mutex);
+void rw_mutex_read_lock (r_mutex_t * r_mutex, w_mutex_t * w_mutex, thread_conf_t * conf);
+void rw_mutex_read_unlock (r_mutex_t * r_mutex, thread_conf_t * conf);
+void rw_mutex_writer_lock (r_mutex_t * r_mutex, w_mutex_t * w_mutex, thread_conf_t * conf);
+void rw_mutex_writer_unlock (w_mutex_t * w_mutex, thread_conf_t * conf);

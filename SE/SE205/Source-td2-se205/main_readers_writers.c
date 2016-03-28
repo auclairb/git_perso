@@ -13,7 +13,8 @@
 #define MAX_SHARED_VARIABLE    20
 
 long shared_variable;
-rw_mutex_t rw_mutex;
+r_mutex_t r_mutex;
+w_mutex_t w_mutex;
 
 int main(int argc, char *argv[]) {
   pthread_t    threads[20];
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
   n_readers = atoi(argv[1]);
   n_writers = atoi(argv[2]);
 
-  rw_mutex_init(&rw_mutex);
+  rw_mutex_init(&r_mutex,&w_mutex);
   
   if (n_writers > 0){
     for (i = 0; i < n_writers ; i++){
@@ -68,10 +69,10 @@ void main_reader (void *arg){
   usleep (conf->offset);
   
   while (!completed){
-    rw_mutex_read_lock (&rw_mutex, conf);
+    rw_mutex_read_lock (&r_mutex,&w_mutex,conf);
     usleep (conf->exec_time);
     completed = (MAX_SHARED_VARIABLE <= shared_variable);
-    rw_mutex_read_unlock (&rw_mutex, conf);
+    rw_mutex_read_unlock (&r_mutex, conf);
     usleep (conf->rest_time);
   }
   printf ("reader (%ld): completed\n", conf->identifier);
@@ -87,13 +88,13 @@ void main_writer (void *arg){
   usleep (conf->offset);
   
   while (!completed){
-    rw_mutex_writer_lock (&rw_mutex, conf);
+    rw_mutex_writer_lock (&r_mutex,&w_mutex, conf);
     printf ("writer (%ld): enter v = %ld\n", conf->identifier, shared_variable);
     shared_variable = shared_variable + inc;
     usleep (conf->exec_time);
     completed = (MAX_SHARED_VARIABLE <= shared_variable);
     printf ("writer (%ld): leave v = %ld\n", conf->identifier, shared_variable);
-    rw_mutex_writer_unlock (&rw_mutex, conf);
+    rw_mutex_writer_unlock (&w_mutex, conf);
     usleep (conf->rest_time);
   }
   printf ("writer (%ld): completed\n", conf->identifier);
