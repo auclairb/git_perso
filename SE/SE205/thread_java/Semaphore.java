@@ -38,9 +38,11 @@ public class Semaphore {
     public synchronized void acquire() throws InterruptedException {
         count--;
         // Suspend until resources available
+	if (count < 0) wait();
     }
     public synchronized void release() throws InterruptedException {
         count++;
         // Resume a thread when needed
+	if (count <= 0) notify();
     }
 }

@@ -44,10 +44,17 @@ public class SemaphoreMain {
        nAgents = Integer.parseInt(args[0]);
        count = Integer.parseInt(args[1]);
        // Create semaphore
+       sem = new Semaphore(count);
        // Allocate agent array
        agents = new Thread[nAgents];
        // Allocate agents
+       for(int i = 0; i<nAgents;i++){
+	   agents[i] = new Agent(i,sem);
+       }
        // Start threads
+       for(int i = 0; i <nAgents;i++){
+	   new Thread(agents[i]).start();
+       }
        System.out.println("main terminated");
     }
 }
