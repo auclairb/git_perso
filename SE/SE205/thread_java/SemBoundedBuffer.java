@@ -35,21 +35,27 @@ class SemBoundedBuffer extends BoundedBuffer {
     SemBoundedBuffer (int maxSize) {
         super(maxSize);
         // Initialize semaphores.
+	emptySlots = new Semaphore(maxSize);
+	fullSlots = new Semaphore(0);
     }
     // This method must be protected against simultaneous accesses
     // from consumers. But **DO NOT CHANGE** the signature of this method.
     Object get() throws InterruptedException {
         Object value;
-            // Suspend until a full slot is available
-            value = super.get();
+	// Suspend until a full slot is available
+	fullSlots.acquire();
+	value = super.get();
         // Release an empty slot
+	emptySlots.release();
         return value;
     }
     // This method must be protected against simultaneous accesses
     // from producers. But **DO NOT CHANGE** the signature of this method.
     void put(Object value) throws InterruptedException {
         // Suspend until an empty slot is available
-            super.put(value);
+	emptySlots.acquire();
+	super.put(value);
         // Release an empty slot
+	fullSlots.release();
     }
 }
