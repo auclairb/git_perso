@@ -43,19 +43,23 @@ class SemBoundedBuffer extends BoundedBuffer {
     Object get() throws InterruptedException {
         Object value;
 	// Suspend until a full slot is available
-	fullSlots.acquire();
-	value = super.get();
-        // Release an empty slot
-	emptySlots.release();
+	synchronized(this){
+	    fullSlots.acquire();
+	    value = super.get();
+	    // Release an empty slot
+	    emptySlots.release();
+	}
         return value;
     }
     // This method must be protected against simultaneous accesses
     // from producers. But **DO NOT CHANGE** the signature of this method.
     void put(Object value) throws InterruptedException {
         // Suspend until an empty slot is available
-	emptySlots.acquire();
-	super.put(value);
-        // Release an empty slot
-	fullSlots.release();
+	synchronized(this){
+	    emptySlots.acquire();
+	    super.put(value);
+	    // Release an empty slot
+	    fullSlots.release();
+	}
     }
 }
