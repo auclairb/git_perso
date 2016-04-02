@@ -36,15 +36,23 @@ class Barrier{
     // zero, resume all waiting threads.
     synchronized int Countdown(){
         int value = count;
+	count--;
+	if(count == 0){
+	    notifyAll();
+	}
         return value;
     }
     // Wait until count reaches zero
     synchronized void Await(){
-        try {
-        }
-        catch(Exception e) {System.out.println("[ERROR]Await(): " + e);}
+	while(count!=0){
+	    try {
+		wait();
+	    }
+	    catch(Exception e) {System.out.println("[ERROR]Await(): " + e);}
+	}
     }
     // Re/Initialize count
     synchronized void Initialize (int count){
+	this.count = count;
     }
 }

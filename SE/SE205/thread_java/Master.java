@@ -56,9 +56,13 @@ class Master extends Thread{
         this.nJobs = nJobs;
     }
     public void run() {
-            ActivatedWorkers.Initialize(1);
-            AvailableJobs.Initialize(nJobs);
-            System.out.println("Master activates workers");
-            ActivatedWorkers.Countdown();
+	ActivatedThreads.Countdown();
+	ActivatedThreads.Await();
+	ActivatedWorkers.Initialize(1);
+	AvailableJobs.Initialize(nJobs);
+	System.out.println("Master activates workers");
+	ActivatedWorkers.Countdown();
+	CompletedThreads.Countdown();
+	CompletedThreads.Await();
     }
 }
