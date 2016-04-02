@@ -39,40 +39,54 @@ class TimedBoundedBuffer extends BoundedBuffer {
     Object get() throws InterruptedException {
         Object value;
 	// Suspend until an full slot is available
-	if(this.first > this.last) wait();
-	value = super.get();
-        // Release an empty slot
-	notify();
+	synchronized(this){
+	    if( size == 0) wait();
+	    value = super.get();
+	    // Release an empty slot
+	    notify();
+	}
         return value;
     }
     // This method must be protected against simultaneous accesses
     // from consumers.  But **DO NOT CHANGE** the signature of this method.
     Object get(long timeout) throws InterruptedException {
         Object value;
-        long start = System.currentTimeMillis();
-            // Suspend until an full slot is available. Resume when
-            // timeout has expired.
-            value = super.get();
-        // Release an empty slot
+        long deadline = System.currentTimeMillis() + timeout;
+	// Suspend until an full slot is available. Resume when
+	// timeout has expired.
+	synchronized(this){
+	    if (size == 0) wait(timeout);
+	    if ((timeout != 0) && (System.currentTimeMillis()>=deadline)) throw new InterruptedException();
+	    else value = super.get();
+	    // Release an empty slot
+	    notify();
+	}
         return value;
     }
     // This method must be protected against simultaneous accesses
     // from producers. But **DO NOT CHANGE** the signature of this method.
     void put(Object value) throws InterruptedException {
-            // Suspend until an empty slot is available. Resume when
-            // timeout has expired.
-	if(this.last>= maxSize) wait();
-            super.put(value);
-            // Release a full slot
+	// Suspend until an empty slot is available. Resume when
+	// timeout has expired.
+	synchronized(this){
+	    if (size == maxSize) wait();
+	    super.put(value);
+	    // Release a full slot
 	    notify();
+	}
     }
     // This method must be protected against simultaneous accesses
     // from producers. But **DO NOT CHANGE** the signature of this method.
     void put(Object value, long timeout) throws InterruptedException {
-        long start = System.currentTimeMillis();
-            // Suspend until an empty slot is available. Resume when
-            // timeout has expired.
-            super.put(value);
-            // Release a full slot
+        long deadline = System.currentTimeMillis() + timeout;
+	// Suspend until an empty slot is available. Resume when
+	// timeout has expired.
+	synchronized(this){
+	    if (size == maxSize) wait(timeout);
+	    if ((timeout != 0) && (System.currentTimeMillis()>=deadline)) throw new InterruptedException();
+	    else super.put(value);
+	    // Release a full slot
+	    notify();
+	}
     }
 }
