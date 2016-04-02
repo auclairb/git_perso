@@ -53,21 +53,25 @@ class Worker extends Thread{
     }
     public void run() {
         int job;
-	// Wait until master has filled up the job table
-	ActivatedThreads.Countdown();
-	ActivatedThreads.Await();
-	ActivatedWorkers.Await();
-	while (true){
-	    // Get a job to do
-	    job = AvailableJobs.Countdown();
-	    if (job <= 0) break;
-	    // Do a job
-	    System.out.println(getName() + " activate job (" + job + ")");
-	    try {sleep((int)(Math.random() * 1000));}
-	    catch(InterruptedException e) {}
-	    System.out.println(getName() + " complete job (" + job + ")");
+	while(true){
+	    // Wait until master has filled up the job table
+	    ActivatedThreads.Countdown();
+	    ActivatedThreads.Await();
+	    ActivatedWorkers.Await();
+	    while (true){
+		// Get a job to do
+		job = AvailableJobs.Countdown();
+		if (job <= 0) break;
+		// Do a job
+		System.out.println(getName() + " activate job (" + job + ")");
+		try {sleep((int)(Math.random() * 1000));}
+		catch(InterruptedException e) {}
+		System.out.println(getName() + " complete job (" + job + ")");
+	    }
+	    CompletedWorkers.Countdown();
+	    CompletedWorkers.Await();
+	    CompletedThreads.Countdown();
+	    CompletedThreads.Await();
 	}
-	CompletedThreads.Countdown();
-	CompletedThreads.Await();
     }
 }
