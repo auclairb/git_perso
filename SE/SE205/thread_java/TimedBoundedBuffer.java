@@ -38,9 +38,11 @@ class TimedBoundedBuffer extends BoundedBuffer {
     // from consumers. But **DO NOT CHANGE** the signature of this method.
     Object get() throws InterruptedException {
         Object value;
-            // Suspend until an full slot is available
-            value = super.get();
+	// Suspend until an full slot is available
+	if(this.first > this.last) wait();
+	value = super.get();
         // Release an empty slot
+	notify();
         return value;
     }
     // This method must be protected against simultaneous accesses
@@ -59,8 +61,10 @@ class TimedBoundedBuffer extends BoundedBuffer {
     void put(Object value) throws InterruptedException {
             // Suspend until an empty slot is available. Resume when
             // timeout has expired.
+	if(this.last>= maxSize) wait();
             super.put(value);
             // Release a full slot
+	    notify();
     }
     // This method must be protected against simultaneous accesses
     // from producers. But **DO NOT CHANGE** the signature of this method.
