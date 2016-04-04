@@ -35,7 +35,7 @@ int main (void) {
   struct sockaddr_in Le_Serveur;
   int taille = sizeof(Le_Serveur);
   
-  if ((Sock_Serv = socket(PF_INET, ....... , 0)) < 0) {
+  if ((Sock_Serv = socket(PF_INET,SOCK_STREAM, 0)) < 0) {
     perror("Erreur d'ouverture du socket en mode connecte");
     exit (1);
   }
@@ -45,7 +45,7 @@ int main (void) {
   **********************************************************************/
   Le_Serveur.sin_family      = AF_INET;
   Le_Serveur.sin_addr.s_addr = INADDR_ANY;
-  Le_Serveur.sin_port        = htons( ...... );
+  Le_Serveur.sin_port        = htons(PORT_SERVEUR);
   
   sprintf(message+15, " %d fils de %d", (int) getpid(), (int) getppid());
   printf("Ici le serveur %s\n", message);
@@ -60,7 +60,7 @@ int main (void) {
     }
   */
   
-  if (bind( ....... , (struct sockaddr *) ..... , ..... ) < 0) {
+  if (bind(Sock_Serv, (struct sockaddr *) &Le_Serveur , taille ) < 0) {
     perror("Serveur: erreur sur bind");
     exit (1);
   }
@@ -83,7 +83,7 @@ int main (void) {
 
   while (1) {
     /* cf. man -s 3n accept, attention EINTR ou EWOULBLOCK ne sont pas geres! */
-    if ((Sock_Com = accept( ..... , (struct sockaddr *) 0,(int *) 0)) == -1) {
+    if ((Sock_Com = accept( Sock_Serv , (struct sockaddr *) 0,(int *) 0)) == -1) {
       perror("Serveur: erreur sur Accept");
       continue;
     }
@@ -107,7 +107,7 @@ void Gerant_Comm(){
 
   do {
     memset(Buf, 0, sizeof(Buf));
-    if ((Ret_Read = read( .... , Buf,sizeof(Buf))) < 0) { 
+    if ((Ret_Read = read( Sock_Com , Buf,sizeof(Buf))) < 0) { 
       perror("Erreur lecture Message");
       printf("*************************************\n");
       continue;
