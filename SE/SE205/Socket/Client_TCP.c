@@ -36,7 +36,7 @@ int main (int argc, char *argv[]) {
   sprintf(message+27, "%d", pid);
   
   /* creation du socket du client */
-  if ((Sock_Des = socket(PF_INET, ....... , 0)) < 0) {
+  if ((Sock_Des = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
       perror("Erreur d'ouverture du socket");
       exit (1);
   }
@@ -48,15 +48,15 @@ int main (int argc, char *argv[]) {
    *    (passe sur la ligne de commande)
    */
   Le_Serveur.sin_family = AF_INET;
-  if ((ph = gethostbyname( ..... )) == (struct hostent *) 0) {
+  if ((ph = gethostbyname(argv[1])) == (struct hostent *) 0) {
       fprintf(stderr, "%s: Hote inconnu\n", argv[1]);
       exit (2);
   }
   memcpy((char *) &Le_Serveur.sin_addr, (char *) ph->h_addr, ph->h_length);
-  Le_Serveur.sin_port = htons( ..... ( ..... ) ));
+  Le_Serveur.sin_port = htons(atoi(argv[2]));
   
   /* connexion vers le serveur */
-  if (connect( .... ,(struct sockaddr *)&Le_Serveur, sizeof(Le_Serveur)) < 0) {
+  if (connect(Sock_Des ,(struct sockaddr *)&Le_Serveur, sizeof(Le_Serveur)) < 0) {
       perror("Erreur de connexion sur le socket serveur"); 
       exit (2);
     }
@@ -96,7 +96,7 @@ int main (int argc, char *argv[]) {
   while (fgets(Buf, sizeof(Buf), stdin)) {
     if (!strncmp(Buf, "fin", 3))
       break;      
-    if (write( ...... , Buf, strlen(Buf)) < 0)
+    if (write(Sock_Des , Buf, strlen(Buf)) < 0)
       perror("Erreur d'ecriture vers le serveur");
   }  
   
