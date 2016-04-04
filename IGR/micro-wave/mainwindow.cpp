@@ -4,6 +4,8 @@
 #include<QStateMachine>
 #include <QTime>
 #include <qtimer.h>
+#include "Transitions.h"
+#include <iostream>
 
 static int countHeating = 0;
 MainWindow::MainWindow(QWidget *parent) :
