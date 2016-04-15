@@ -12,4 +12,5 @@ clean :
 	rm -f $(OBJS)
 	rm -f serveur client
 	rm -f *~
+	rm -f *.o
 .phony: clean
