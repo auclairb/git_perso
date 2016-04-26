@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setMinute->addTransition(ui->clockButton,SIGNAL(clicked()),defaultState);
 
     heating->addTransition(ui->startButton,SIGNAL(clicked()),heating);
+    heating->addTransition(time,SIGNAL(timeout()),defaultState);
 
     s1->addTransition(ui->stopButton,SIGNAL(clicked()),s1);
 
@@ -77,10 +78,7 @@ MainWindow::~MainWindow()
 void MainWindow::enterHeating(){
     countHeating++;
     disconnect(this->timer, SIGNAL(timeout()), this, SLOT(displayClock()));
-    if (countHeating == 0){
-        emit clicked();
-    }
-    else if (countHeating == 1){
+    if (countHeating == 1){
         this->time = new QTime(0,1);
         (ui->lcdNumber)->display((this->time)->toString("hh:mm:ss"));
         connect(this->timer, SIGNAL(timeout()), this, SLOT(increaseTime()));
