@@ -12,11 +12,10 @@
 #include <QPainterPath>
 #include <QVector>
 
-class StrokeTraining::public StrokDrawer
-{
-  
- private:
-  QPoint point1,point2;
+class StrokeTraining:public StrokeDrawer{
+
+  private:
+  QPoint point1,point2,point3,point4;
   QPainterPath path;
   int penWidth;
   bool mousePress;
@@ -30,7 +29,7 @@ class StrokeTraining::public StrokDrawer
   QList< QPair<QPainterPath,QPen > > pathsList;
 
   public:
-    explicit DrawingArea( QWidget *parent = 0 );
+    explicit StrokeTraining( QWidget * parent , QPolygonF);
     QList<QPair<QPainterPath,QPen> > getList() {return pathsList;}
     void setList(QList<QPair<QPainterPath,QPen> > ) ;
     void paintEvent(QPaintEvent *);
@@ -39,6 +38,12 @@ class StrokeTraining::public StrokDrawer
     void mouseMoveEvent(QMouseEvent *event);
 
 
+public slots:
+    void erase();
+    void eraseAll();
+    void modify();
+    void line();
 };
 
 #endif
+

@@ -6,12 +6,19 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include "strokedrawer.h"
+#include "stroketraining.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QWidget * window = new QWidget();
+    QPolygonF polygon;
+    QWidget * window = new QWidget(this);
+    StrokeTraining * drawing = new StrokeTraining(this,polygon);
+    drawing->setMinimumWidth(600);
+    drawing->setMinimumHeight(500);
+    drawing->setAutoFillBackground(true);
+
     ui->setupUi(this);
 
     setCentralWidget(window);
@@ -24,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //ScrollArea creation
     QScrollArea * scrollArea = new QScrollArea();
     QWidget * scrollingWidget = new QWidget();
-
 
 
     //We add a horizontal layout to the widget of the scrollArea
@@ -59,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QTextEdit * text = new QTextEdit("Salut beau gosse !");
     hLayout->addWidget(text);
+    hLayout->addWidget(drawing);
     vLayout->addWidget(scrollArea);
     vLayout->addLayout(hLayout);
 
