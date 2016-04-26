@@ -78,7 +78,7 @@ void MainWindow::enterHeating(){
     countHeating++;
     disconnect(this->timer, SIGNAL(timeout()), this, SLOT(displayClock()));
     if (countHeating == 0){
-        emit ui->stopButton::clicked();
+        emit clicked();
     }
     else if (countHeating == 1){
         this->time = new QTime(0,1);
