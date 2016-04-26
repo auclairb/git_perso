@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->time = new QTime(0,1);
     this->clock = new QTime(0,0,0);
     this->timer = new QTimer(this);
+    this->timer2 = new QTimer(this);
 
     connect(this->timer, SIGNAL(timeout()), this, SLOT(increaseClock()));
     (this->timer)->start(1000);
@@ -57,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setMinute->addTransition(ui->clockButton,SIGNAL(clicked()),defaultState);
 
     heating->addTransition(ui->startButton,SIGNAL(clicked()),heating);
-    heating->addTransition((QObject *) time,SIGNAL(timeout()),defaultState);
+    heating->addTransition(timer2,SIGNAL(timeout()),defaultState);
 
     s1->addTransition(ui->stopButton,SIGNAL(clicked()),s1);
 
@@ -93,7 +94,7 @@ void MainWindow::increaseTime(){
     (ui->lcdNumber)->display((this->time)->toString("hh:mm:ss"));
     if((this->time)->toString("mm:ss")=="00:00"){
        disconnect(this->timer, SIGNAL(timeout()),this,SLOT(increaseTime()));
-       (ui->lcdNumber)->display("00:00:00");
+       timer2->start(500);
     }
 }
 
@@ -101,6 +102,7 @@ void MainWindow::enterDefault(){
     disconnect(this->timer, SIGNAL(timeout()),this,SLOT(increaseTime()));
     connect(this->timer,SIGNAL(timeout()),this,SLOT(displayClock()));
     countHeating = 0;
+    timer2->stop();
 }
 
 void MainWindow::increaseClock(){

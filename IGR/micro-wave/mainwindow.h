@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
   QTime * time;
   QTime * clock;
   QTimer * timer;
+  QTimer * timer2;
  public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
