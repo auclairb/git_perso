@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setMinute->addTransition(ui->clockButton,SIGNAL(clicked()),defaultState);
 
     heating->addTransition(ui->startButton,SIGNAL(clicked()),heating);
+    addEventTrans(heating,defaultState,this->time,SIGNAL(timeout()));
 
     s1->addTransition(ui->stopButton,SIGNAL(clicked()),s1);
 
