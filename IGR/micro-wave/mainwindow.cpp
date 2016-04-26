@@ -16,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->clock = new QTime(0,0,0);
     this->timer = new QTimer(this);
     this->timer2 = new QTimer(this);
-
-    connect(this->timer, SIGNAL(timeout()), this, SLOT(increaseClock()));
     (this->timer)->start(1000);
 
     ui->setupUi(this);
@@ -64,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(heating,SIGNAL(entered()),this,SLOT(enterHeating()));
     QObject::connect(defaultState,SIGNAL(entered()),this,SLOT(enterDefault()));
+    QObject::connect(setHour,SIGNAL(entered()),this,SLOT(dialHour()));
+    QObject::connect(setMinute,SIGNAL(entered()),this,SLOT(dialMin()));
 
     s1->setInitialState(defaultState);
 
@@ -99,6 +99,8 @@ void MainWindow::increaseTime(){
 }
 
 void MainWindow::enterDefault(){
+    disconnect(this->timer, SIGNAL(timeout()),this,SLOT(increaseClock()));
+    connect(this->timer, SIGNAL(timeout()),this,SLOT(increaseClock()));
     disconnect(this->timer, SIGNAL(timeout()),this,SLOT(increaseTime()));
     connect(this->timer,SIGNAL(timeout()),this,SLOT(displayClock()));
     countHeating = 0;
@@ -111,5 +113,14 @@ void MainWindow::increaseClock(){
 
 void MainWindow::displayClock(){
     (ui->lcdNumber)->display((this->clock)->toString("hh:mm:ss"));
+}
+
+void MainWindow::dialHour(){
+    disconnect(this->timer, SIGNAL(timeout()),this,SLOT(increaseClock()));
+       *(this->clock)=(this->clock)->addSecs(3600);
+}
+
+void MainWindow::dialMin(){
+        *(this->clock)=(this->clock)->addSecs(60);
 }
 

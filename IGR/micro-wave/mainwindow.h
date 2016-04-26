@@ -29,7 +29,8 @@ class MainWindow : public QMainWindow
     void enterDefault();
     void increaseClock();
     void displayClock();
-      
+    void dialHour();
+    void dialMin();
 };
 
 
