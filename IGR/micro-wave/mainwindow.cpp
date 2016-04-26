@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    this->time = new QTimer(0,1);
+    this->time = new QTime(0,1);
     this->clock = new QTime(0,0,0);
     this->timer = new QTimer(this);
 
