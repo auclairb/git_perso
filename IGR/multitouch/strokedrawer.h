@@ -10,7 +10,7 @@ class StrokeDrawer:public QWidget
     QPolygonF gesture;
 
 public:
-    StrokeDrawer(QPolygonF);
+    StrokeDrawer();
 
 private:
     void setStroke(QPolygonF);

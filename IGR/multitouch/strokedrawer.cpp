@@ -1,9 +1,8 @@
 #include "strokedrawer.h"
 #include <qmath.h>
 
-StrokeDrawer::StrokeDrawer(QPolygonF gesture_new)
+StrokeDrawer::StrokeDrawer()
 {
-  this->gesture = gesture_new;
 }
 
 void StrokeDrawer::setStroke(QPolygonF gesture_new) {

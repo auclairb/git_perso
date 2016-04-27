@@ -15,23 +15,13 @@
 class StrokeTraining:public StrokeDrawer{
 
   private:
-  QPoint point1,point2,point3,point4;
-  QPainterPath path;
-  int penWidth;
-  bool mousePress;
-  bool mouseRightPress;
-  bool donePop;
-  bool selectionFirstClick,moveForms;
-  int chosenForm;
-  QVector<int> index;
-  QColor penColor;
-  Qt::PenStyle penStyle;
-  QList< QPair<QPainterPath,QPen > > pathsList;
+  QPoint point1,point2;
+  QList<QPoint> pathList;
+  QPainterPath path,pathCurrent;
+  bool firstClick;
 
   public:
-    explicit StrokeTraining( QWidget * parent , QPolygonF);
-    QList<QPair<QPainterPath,QPen> > getList() {return pathsList;}
-    void setList(QList<QPair<QPainterPath,QPen> > ) ;
+    explicit StrokeTraining( QWidget * parent);
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent * event);
@@ -39,10 +29,7 @@ class StrokeTraining:public StrokeDrawer{
 
 
 public slots:
-    void erase();
-    void eraseAll();
-    void modify();
-    void line();
+    void submit();
 };
 
 #endif
