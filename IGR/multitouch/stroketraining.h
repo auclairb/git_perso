@@ -13,6 +13,7 @@
 #include <QVector>
 
 class StrokeTraining:public StrokeDrawer{
+    Q_OBJECT
 
   private:
   QPoint point1,point2;
@@ -21,15 +22,15 @@ class StrokeTraining:public StrokeDrawer{
   bool firstClick;
 
   public:
-    explicit StrokeTraining( QWidget * parent);
+    explicit StrokeTraining();
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent *event);
 
-
 public slots:
     void submit();
+    void erase();
 };
 
 #endif

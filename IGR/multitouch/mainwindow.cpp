@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     QWidget * window = new QWidget(this);
-    StrokeTraining * drawing = new StrokeTraining(this);
+    QPolygonF polygon;
+    StrokeTraining * drawing = new StrokeTraining();
     drawing->setMinimumWidth(600);
     drawing->setMinimumHeight(500);
 
@@ -36,9 +37,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QHBoxLayout * scrollingLayout = new QHBoxLayout();
 
     //Add some buttons
-    QPushButton * submitButton = new QPushButton("Submit",drawing);
+    QPushButton * submitButton = new QPushButton("Submit");
     submitButton->resize(100,50);
+    connect(submitButton,SIGNAL(clicked()),drawing,SLOT(submit()));
 
+    QPushButton * eraseButton = new QPushButton("Erase");
+    submitButton->resize(100,50);
+    connect(eraseButton,SIGNAL(clicked()),drawing,SLOT(erase()));
+
+    QHBoxLayout * buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(submitButton);
+    buttonLayout->addWidget(eraseButton);
 
     scrollingWidget->setLayout(scrollingLayout);
 
@@ -49,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     hLayout->addWidget(drawing);
     vLayout->addWidget(scrollArea);
     vLayout->addLayout(hLayout);
+    vLayout->addLayout(buttonLayout);
 
     window->setLayout(vLayout);
     window->show();

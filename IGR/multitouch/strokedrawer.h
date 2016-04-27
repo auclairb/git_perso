@@ -19,7 +19,6 @@ private:
     void displayStroke();
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
-
 };
 
 #endif // STROKEDRAWER_H

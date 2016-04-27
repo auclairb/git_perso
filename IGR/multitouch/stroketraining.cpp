@@ -6,7 +6,7 @@
 #include <QList>
 #include <QVector>
 
-StrokeTraining::StrokeTraining(QWidget * parent):StrokeDrawer() {
+StrokeTraining::StrokeTraining():StrokeDrawer(){
     point1 = QPoint(0,0);
     point2 = QPoint(0,0);
     pathList = QList<QPoint>{};
@@ -70,4 +70,15 @@ void StrokeTraining::paintEvent(QPaintEvent *paintEvent){
 
 void StrokeTraining::submit(){
 
+}
+
+void StrokeTraining::erase(){
+    point1 = QPoint(0,0);
+    point2 = QPoint(0,0);
+    pathList = QList<QPoint>{};
+
+    path = QPainterPath();
+    pathCurrent = QPainterPath();
+    firstClick = true;
+    update();
 }
