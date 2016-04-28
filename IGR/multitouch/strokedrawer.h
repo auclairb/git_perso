@@ -4,6 +4,7 @@
 #include  <QWidget>
 #include <QPolygonF>
 #include <QPainter>
+#include "QPen"
 
 class StrokeDrawer:public QWidget
 {
@@ -12,11 +13,11 @@ class StrokeDrawer:public QWidget
 public:
     StrokeDrawer();
 
-private:
+public:
     void setStroke(QPolygonF);
     QPolygonF getStroke();
     void clearStroke();
-    void displayStroke();
+    void paintEvent(QPaintEvent * paintEvent);
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
 };

@@ -20,6 +20,7 @@ class StrokeTraining:public StrokeDrawer{
   QList<QPoint> pathList;
   QPainterPath path,pathCurrent;
   bool firstClick;
+  QPolygonF polygon;
 
   public:
     explicit StrokeTraining();

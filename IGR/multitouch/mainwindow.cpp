@@ -1,12 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QWidget>
-#include <QBoxLayout>
 #include <QScrollArea>
 #include <QPushButton>
 #include <QTextEdit>
 #include "strokedrawer.h"
-#include "stroketraining.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QWidget * window = new QWidget(this);
     QPolygonF polygon;
-    StrokeTraining * drawing = new StrokeTraining();
+    drawing = new StrokeTraining();
     drawing->setMinimumWidth(600);
     drawing->setMinimumHeight(500);
 
@@ -27,19 +26,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout * vLayout = new QVBoxLayout;
     QHBoxLayout * hLayout = new QHBoxLayout;
 
-
     //ScrollArea creation
     QScrollArea * scrollArea = new QScrollArea();
     QWidget * scrollingWidget = new QWidget();
 
 
     //We add a horizontal layout to the widget of the scrollArea
-    QHBoxLayout * scrollingLayout = new QHBoxLayout();
+    scrollingLayout = new QHBoxLayout();
 
     //Add some buttons
     QPushButton * submitButton = new QPushButton("Submit");
     submitButton->resize(100,50);
     connect(submitButton,SIGNAL(clicked()),drawing,SLOT(submit()));
+    connect(submitButton,SIGNAL(clicked()),this,SLOT(move()));
+    connect(submitButton,SIGNAL(clicked()),drawing,SLOT(erase()));
 
     QPushButton * eraseButton = new QPushButton("Erase");
     submitButton->resize(100,50);
@@ -68,4 +68,23 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::move(){
+    /*StrokeDrawer * templaBuff = new StrokeDrawer;
+    templaBuff->setStroke(drawing->getStroke());
+    if((!templaBuff->getStroke())->isEmpty()){
+        templa.append(templaBuff);
+        scrollingLayout->addWidget(templa.back());
+    }*/
+    GestureTemplate polygon = GestureTemplate(drawing->getStroke());
+    if (!polygon.isEmpty()){
+        polygon.normalize();
+        polygon=GestureTemplate(polygon.scaleToSquare(polygon));
+        polygon.translate(QPoint(125,125));
+        gestureTemplate.append(polygon);
+        StrokeDrawer * templaBuff = new StrokeDrawer;
+        templaBuff->setStroke(gestureTemplate.back());
+        scrollingLayout->addWidget(templaBuff);
+    }
 }

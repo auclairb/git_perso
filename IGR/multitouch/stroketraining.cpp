@@ -69,7 +69,10 @@ void StrokeTraining::paintEvent(QPaintEvent *paintEvent){
 }
 
 void StrokeTraining::submit(){
-
+    for(int i = 0;i<pathList.size();i++){
+        polygon<<pathList.at(i);
+    }
+    this->setStroke(polygon);
 }
 
 void StrokeTraining::erase(){
@@ -80,5 +83,7 @@ void StrokeTraining::erase(){
     path = QPainterPath();
     pathCurrent = QPainterPath();
     firstClick = true;
+    polygon = QPolygonF();
+    this->clearStroke();
     update();
 }
