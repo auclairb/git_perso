@@ -30,3 +30,8 @@ float OneDollarGesture::getScore(){
 QPolygonF OneDollarGesture::getTrace(){
     return this->trace;
 }
+
+void OneDollarGesture::clear(){
+    this->score=0;
+    this->gestureTemplate=
+}

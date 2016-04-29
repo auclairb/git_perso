@@ -20,6 +20,7 @@ public:
     QPolygonF getTrace();
     GestureTemplate getGestureTemplate();
     float getScore();
+    void clear();
 };
 
 #endif // ONEDOLLARGESTURE_H
