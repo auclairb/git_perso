@@ -8,7 +8,7 @@ class OneDollarRecognizer: public QGestureRecognizer
 {
 public:
     OneDollarRecognizer();
-    Result recognize(QGesture *,QObject*,QEvent*);
+    QGestureRecognizer::Result recognize(QGesture *,QObject*,QEvent*);
     QGesture * create(QObject*);
     void reset(QGesture*);
 };

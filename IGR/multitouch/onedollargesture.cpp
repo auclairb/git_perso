@@ -33,5 +33,6 @@ QPolygonF OneDollarGesture::getTrace(){
 
 void OneDollarGesture::clear(){
     this->score=0;
-    this->gestureTemplate=
+    this->gestureTemplate=GestureTemplate();
+    this->trace=QPolygonF();
 }
