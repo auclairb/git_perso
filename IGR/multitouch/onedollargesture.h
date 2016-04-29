@@ -4,6 +4,7 @@
 #include <QGesture>
 #include <QPolygonF>
 #include "gesturetemplate.h"
+#include "onedollargesture.h"
 
 class OneDollarGesture:public QGesture
 {

@@ -4,6 +4,9 @@
 #include <QGesture>
 #include "onedollarutil.h"
 #include "onedollargesture.h"
+#include <QEvent>
+#include <QMouseEvent>
+#include <QDebug>
 
 class OneDollarGestureRecognizer: public QGestureRecognizer,OneDollarUtil
 {
