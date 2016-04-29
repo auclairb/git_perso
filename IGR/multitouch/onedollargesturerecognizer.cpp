@@ -13,6 +13,7 @@ QGesture * OneDollarGestureRecognizer::create(QObject*){
     return dollarGesture;
 }
 
-void OneDollarGestureRecognizer::reset(QGesture*){
-
+void OneDollarGestureRecognizer::reset(QGesture* qgesture){
+    (static_cast<OneDollarGesture*>(qgesture))->clear();
+    QGestureRecognizer::reset(qgesture);
 }
