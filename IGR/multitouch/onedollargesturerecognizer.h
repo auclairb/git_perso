@@ -2,9 +2,10 @@
 #define ONEDOLLARGESTURERECOGNIZER_H
 #include <QGestureRecognizer>
 #include <QGesture>
+#include "onedollarutil.h"
 #
 
-class OneDollarGestureRecognizer: public QGestureRecognizer
+class OneDollarGestureRecognizer: public QGestureRecognizer,OneDollarUtil
 {
 public:
     OneDollarGestureRecognizer();
