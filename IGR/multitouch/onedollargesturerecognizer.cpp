@@ -9,7 +9,8 @@ QGestureRecognizer::Result OneDollarGestureRecognizer::recognize(QGesture *,QObj
 }
 
 QGesture * OneDollarGestureRecognizer::create(QObject*){
-
+    OneDollarGesture *  dollarGesture = new OneDollarGesture(QPolygonF(),GestureTemplate(),0);
+    return dollarGesture;
 }
 
 void OneDollarGestureRecognizer::reset(QGesture*){

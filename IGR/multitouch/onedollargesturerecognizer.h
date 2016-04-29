@@ -3,7 +3,7 @@
 #include <QGestureRecognizer>
 #include <QGesture>
 #include "onedollarutil.h"
-#
+#include "onedollargesture.h"
 
 class OneDollarGestureRecognizer: public QGestureRecognizer,OneDollarUtil
 {
