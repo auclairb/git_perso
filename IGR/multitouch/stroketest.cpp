@@ -2,7 +2,9 @@
 
 StrokeTest::StrokeTest() :StrokeDrawer()
 {
-    grabGesture(Qt::SwipeGesture);
+    OneDollarGestureRecognizer gestureRecognize;
+    QGestureRecognizer::registerRecognizer(gestureRecognize);
+    grabGesture(registerRecognizer(gestureRecognize));
 }
 
 bool StrokeTest::event(QEvent * event){

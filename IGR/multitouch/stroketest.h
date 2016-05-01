@@ -7,6 +7,7 @@
 #include <QGesture>
 #include <iostream>
 #include <QLabel>
+#include "onedollargesturerecognizer.h"
 
 class StrokeTest:public StrokeDrawer
 {
