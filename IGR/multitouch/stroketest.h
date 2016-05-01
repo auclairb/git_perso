@@ -13,6 +13,7 @@
 class StrokeTest:public StrokeDrawer
 {
     Q_OBJECT
+    OneDollarGestureRecognizer * gestureRecognize;
 public:
     StrokeTest();
     bool event(QEvent*);
